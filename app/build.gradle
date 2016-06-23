@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 21
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.sj4399.import_peso"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -26,30 +26,24 @@ android {
     }
 }
 
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn ndkBuild
+}
 
-//tasks.withType(JavaCompile) {
-//    compileTask -> compileTask.dependsOn ndkBuild
-//}
-//
-////gradle配置ndk编译原理,参考 http://blog.gaku.net/ndk/
-//task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
-//    // android.mk 地址 ，自行更改
-//    def androidMK = "$projectDir/src/main/jni/Android.mk"
-//    // application.mk 地址， 自行更改
-//    def applicationMK = "$projectDir/src/main/jni/Application.mk"
-//
-//    def ndkDir = plugins.getPlugin('com.android.application').sdkHandler.getNdkFolder()
-//
-//    def cmd = ["$ndkDir\\ndk-build.cmd", "NDK_PROJECT_PATH=$projectDir", "NDK_DEBUG=1",
-//               "APP_BUILD_SCRIPT=$androidMK", "NDK_APPLICATION_MK=$applicationMK"]
-//
-//    println(cmd)
-//    commandLine cmd
-//}
+//gradle配置ndk编译原理,参考 http://blog.gaku.net/ndk/
+task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+    def androidMK = "$projectDir/src/main/jni/Android.mk"
+    def applicationMK = "$projectDir/src/main/jni/Application.mk"
+    def ndkDir = plugins.getPlugin('com.android.application').sdkHandler.getNdkFolder()
+    def cmd = ["$ndkDir\\ndk-build.cmd", "NDK_PROJECT_PATH=$projectDir", "NDK_DEBUG=1",
+               "APP_BUILD_SCRIPT=$androidMK", "NDK_APPLICATION_MK=$applicationMK"]
+    println(cmd)
+    commandLine cmd
+}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'org.apache.karaf.http:http:3.0.7'
 }

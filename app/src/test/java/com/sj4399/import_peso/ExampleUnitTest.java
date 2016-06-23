@@ -1,4 +1,4 @@
-package com.sj4399.import_peso;
+package com.sj4399.importpeso;
 
 import org.junit.Test;
 
