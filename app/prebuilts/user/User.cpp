@@ -1,11 +1,27 @@
 #include "User.h"
-#include <iostream>
 #include <android/log.h>
-#define  LOGE(format, args...)  __android_log_print(ANDROID_LOG_ERROR, "User.cpp", format, ##args);
-User::User(int age, int score){
+#include "mylog.h"
+
+User* User::ZHANGSAN = new User(0, 20, "张三");
+User* User::LISI = new User(20, 30, "李四");
+User::User(){
+	this->age = 0;
+	this->score = 100;
+	this->name = "hello world";
+}
+User::User(int age, int score, std::string name){
 	this->age = age;
 	this->score = score;
+	this->name = name;
 }
+
+void User::pure_vf(){
+	LOGE("invoke User::pure_vf()")
+};
+void User::pure_vf2(){
+	LOGE("invoke User::pure_vf2()")
+};
+
 void User::setAge(int age){
 	this->age = age;
 }
@@ -21,5 +37,11 @@ int User::getScore(){
 	LOGE("second virtual function: User::getScore")
 	return this->score;
 }
+void User::show(){
+	LOGE("user:%s, age:%d, score%d", this->name.c_str(), this->age, this->score)
+}
 
-User::~User() { }
+
+User::~User() {
+	LOGE("delete User")
+}
