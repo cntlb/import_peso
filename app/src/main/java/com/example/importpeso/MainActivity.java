@@ -1,6 +1,9 @@
 package com.example.importpeso;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,13 +13,22 @@ import java.io.File;
 import java.util.Arrays;
 
 public class MainActivity extends Activity {
-    static {
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("user");
-        System.loadLibrary("hello");
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        try {
+            String packageName = "com.example.hello";
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+//            Context context = createPackageContext(packageName, CONTEXT_IGNORE_SECURITY);
+            String libraryDir = packageInfo.applicationInfo.nativeLibraryDir;
+            System.load(new File(libraryDir,System.mapLibraryName("gnustl_shared")).getAbsolutePath());
+            System.load(new File(libraryDir,System.mapLibraryName("user")).getAbsolutePath());
+            System.loadLibrary("hello");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView toolbar = (TextView) findViewById(R.id.tv);
@@ -29,27 +41,6 @@ public class MainActivity extends Activity {
         toolbar.setText(String.valueOf(test()));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public native int test();
 }
