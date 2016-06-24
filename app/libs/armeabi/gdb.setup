@@ -1,0 +1,2 @@
+set solib-search-path E:\workspace\android_studio\jni\import_peso\app/obj/local/armeabi
+directory D:/Eclipse/android-ndk-r12/build//../platforms/android-19/arch-arm/usr/include D:/Eclipse/android-ndk-r12/build//../sources/cxx-stl/gnu-libstdc++ D:/Eclipse/android-ndk-r12/build//../sources/cxx-stl/gnu-libstdc++/4.9/include D:/Eclipse/android-ndk-r12/build//../sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include D:/Eclipse/android-ndk-r12/build//../sources/cxx-stl/gnu-libstdc++/4.9/include/backward E:/workspace/android_studio/jni/import_peso/app/src/main/jni prebuilts/user
